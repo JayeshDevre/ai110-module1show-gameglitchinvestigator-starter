@@ -4,38 +4,32 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 
 ## 1. What was broken when you started?
 
-- What did the game look like the first time you ran it?
-- List at least two concrete bugs you noticed at the start  
-  (for example: "the hints were backwards").
+The game ran but gave wrong hints half the time, it would say "go higher" when it should say "go lower." Also, Hard mode was actually easier than Normal because it used a smaller number range.
 
 ---
 
 ## 2. How did you use AI as a teammate?
 
-- Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
-- Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
-- Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
+I used Kiro (AI assistant) throughout this project — first to read and analyze the code, then in Agent mode to refactor logic from `app.py` into `logic_utils.py` and apply fixes.
+
+**Correct AI suggestion:** Kiro identified that `check_guess` in `app.py` was casting the secret to a string on every even-numbered attempt, which caused broken string-vs-int comparisons (e.g. `"9" > "50"` is `True` in Python string comparison, so guess 9 would wrongly return "Too High"). I verified this by writing `test_check_guess_always_uses_int_comparison` — before the fix it would have failed, after the fix it passes cleanly.
+
+**Incorrect/misleading AI suggestion:** The original AI-generated `update_score` function had a branch that gave +5 points for a "Too High" guess on even attempts. The code looked intentional and structured, as if it were a bonus mechanic, so it wasn't obviously wrong. I only caught it by tracing through the logic manually and writing `test_wrong_guess_always_deducts_score`, which confirmed the score was going up instead of down on even attempts.
 
 ---
 
 ## 3. Debugging and testing your fixes
 
-- How did you decide whether a bug was really fixed?
-- Describe at least one test you ran (manual or using pytest)  
-  and what it showed you about your code.
-- Did AI help you design or understand any tests? How?
+I verified each fix by writing a pytest case that would have failed on the buggy code and passes on the fixed version. For example, `test_check_guess_always_uses_int_comparison` passes `check_guess(9, 50)` and asserts the outcome is "Too Low" — the old string-comparison bug would have returned "Too High" instead. Running `pytest -v` confirmed all 14 tests pass, including the 3 original starter tests (which also needed a small fix since they were asserting a plain string but `check_guess` returns a tuple). AI helped design the tests by suggesting edge cases like float strings (`"7.9"`) and empty input for `parse_guess`.
 
 ---
 
 ## 4. What did you learn about Streamlit and state?
 
-- How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
+Every time you click a button, Streamlit reruns the whole page from scratch. Session state is like a sticky notepad that remembers things (like your score) between those reruns, otherwise everything resets.
 
 ---
 
 ## 5. Looking ahead: your developer habits
 
-- What is one habit or strategy from this project that you want to reuse in future labs or projects?
-  - This could be a testing habit, a prompting strategy, or a way you used Git.
-- What is one thing you would do differently next time you work with AI on a coding task?
-- In one or two sentences, describe how this project changed the way you think about AI generated code.
+Always run the tests first before touching anything — they tell you what's broken faster than reading all the code. And with AI-written code, don't assume it works just because it looks clean; actually trace through the logic yourself.
