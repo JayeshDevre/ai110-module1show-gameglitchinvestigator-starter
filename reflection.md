@@ -26,10 +26,10 @@ I verified each fix by writing a pytest case that would have failed on the buggy
 
 ## 4. What did you learn about Streamlit and state?
 
-Every time you click a button, Streamlit reruns the whole page from scratch. Session state is like a sticky notepad that remembers things (like your score) between those reruns, otherwise everything resets.
+Every time you click a button, Streamlit reruns the entire script from top to bottom — so any plain variable you set gets wiped. `st.session_state` is a dictionary that persists across those reruns, which is how the game remembers your score, attempt count, and secret number between clicks. Without it, every button press would reset the game to zero. The tricky part is that state bugs are invisible until you trace through what survives a rerun and what doesn't.
 
 ---
 
 ## 5. Looking ahead: your developer habits
 
-Always run the tests first before touching anything — they tell you what's broken faster than reading all the code. And with AI-written code, don't assume it works just because it looks clean; actually trace through the logic yourself.
+One habit I want to keep: run the tests before touching any logic. In this project, running `pytest` immediately showed that `logic_utils.py` was completely unimplemented — that single command saved me from debugging in the wrong place. Next time I work with AI on a coding task, I'd ask it to explain its reasoning for any conditional branch that looks unusual, rather than assuming it's intentional. This project changed how I read AI-generated code — I now treat it like a pull request from a junior dev: probably mostly right, but worth a careful line-by-line review before merging.
