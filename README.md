@@ -66,6 +66,4 @@ tests/test_game_logic.py::test_parse_guess_non_numeric PASSED
 14 passed in 0.01s
 ```
 
-## 🚀 Stretch Features
 
-- [ ] [If you choose to complete Challenge 4, insert a screenshot of your Enhanced Game UI here]
