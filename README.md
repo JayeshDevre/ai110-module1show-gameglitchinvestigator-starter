@@ -46,10 +46,6 @@ A Streamlit number-guessing game where the player tries to guess a secret number
 
 ## 📸 Demo
 
-> To add a screenshot: run `streamlit run app.py`, play a winning round, and paste a screenshot below.
-
-- [ ] [Insert a screenshot of your fixed, winning game here]
-
 **pytest results (14/14 passing):**
 
 ```
